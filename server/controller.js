@@ -5,6 +5,7 @@ const {CONNECTION_STRING} = process.env
 const db = new Sequelize(CONNECTION_STRING)
 module.exports = {
     seed: (req, res) => {
+        let {countryId} = req.body
         db.query(`
             drop table if exists cities;
             drop table if exists countries;
@@ -220,9 +221,9 @@ module.exports = {
 
             INSERT INTO cities (name, rating, country_id)
             VALUES
-            ('City 1', 4, 1),
-            ('City 2', 3, 2),
-            ('City 3', 5, 3);
+            ('City 1', 4, ${countryId}),
+            ('City 2', 3, ${countryId}),
+            ('City 3', 5, ${countryId});
         `).then(() => {
             console.log('DB seeded!')
             res.sendStatus(200)
