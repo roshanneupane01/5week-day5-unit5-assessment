@@ -236,10 +236,10 @@ module.exports = {
     },
 
     createCity: (req, res) => {
-        let {name, rating, country_id} = req.body
+        let {name, rating, countryId} = req.body
         db.query(`
             INSERT INTO cities (name, rating, country_id)
-            VALUES ('${name}', ${rating}, ${country_id});
+            VALUES ('${name}', ${rating}, ${countryId});
         `)
         .then((dbRes) => {
             res.status(200).send(dbRes[0])
@@ -250,13 +250,11 @@ module.exports = {
     },
 
     getCities: (req, res) => {
-        let {country_id} = req.body
         db.query(`
             SELECT c.city_id, c.name AS city, c.rating, ct.country_id, ct.name AS country
             FROM cities c
             JOIN countries ct
-            ON c.country_id = ct.country.id
-            WHERE c.country_id = ${country_id};
+            ON c.country_id = ct.country_id;
         `)
         .then((dbRes) => {
             res.status(200).send(dbRes[0])
@@ -267,10 +265,10 @@ module.exports = {
     },
 
     deleteCity: (req, res) => {
-        let {city_id} = req.params
+        let {id} = req.params
         db.query(`
             DELETE FROM cities
-            WHERE city_id = ${city_id};
+            WHERE city_id = ${id};
         `)
         .then((dbRes)=> {
             res.status(200).send(dbRes[0])
